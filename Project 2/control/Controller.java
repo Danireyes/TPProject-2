@@ -1,8 +1,8 @@
-package tp.pr1.control;
+package tp.pr2.control;
 
 import java.util.Scanner;
 
-import tp.pr1.logic.Game;
+import tp.pr2.logic.Game;
 
 
 public class Controller {
