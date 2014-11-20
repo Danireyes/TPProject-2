@@ -16,11 +16,8 @@ public class Game {
 	private Counter turn;
 	private boolean finished;
 	private Counter winner;
-	//Move Stack
-	private static final int UNDO_MAX = 10;
-	private int[ ] undoStack;
-	private int numUndo;
 	private boolean full;
+	private UndoStack undoStack;
 
 	//Constructs a new game.
 	public Game() {
@@ -30,9 +27,7 @@ public class Game {
 		this.finished = false;
 		this.winner = Counter.EMPTY;
 		this.full = false;
-		//Initialize stack
-		this.undoStack = new int[UNDO_MAX];
-		this.numUndo = 0;
+		this.undoStack = new UndoStack();
 	}
 	
 	//Restarts the current game. This operation cannot be undone.
@@ -42,8 +37,7 @@ public class Game {
 		this.finished = false;
 		this.winner = Counter.EMPTY;
 		this.full = false;
-		this.undoStack = new int[UNDO_MAX];
-		this.numUndo = 0;
+		this.undoStack = new UndoStack();
 	}
 	
 	//Executes the move indicated by the column number provided as argument.
@@ -63,7 +57,7 @@ public class Game {
 			if (h > Util.ERRORTHRESHOLD) {
 				this.board.setPosition(column, h, this.turn);					
 				success = true;
-				this.appendUndo(column);					
+				this.undoStack.push(column);					
 				this.finished = this.board.checkFinished();
 				if (this.finished) {
 					this.winner = this.turn;
@@ -93,13 +87,13 @@ public class Game {
 	//Undo the last movement executed
 	public boolean undo() {		
 		boolean success = false;
-		if (this.numUndo > 0) {
+		if (!this.undoStack.isEmpty()) {
 			//Searches desired column from top to bottom
-			int h = Util.firstEmptyPosition(this.board, this.undoStack[this.numUndo - 1]);		
+			int h = Util.firstEmptyPosition(this.board, this.undoStack.getLastElement());		
 			if (h > Util.ERRORTHRESHOLD) {
-				this.board.setPosition(this.undoStack[this.numUndo - 1], h+1, Counter.EMPTY);
+				this.board.setPosition(this.undoStack.getLastElement(), h+1, Counter.EMPTY);
 				success = true;
-				this.popUndo();	
+				this.undoStack.pop();	
 				this.changeTurn();
 			} 				
 		} else {
@@ -126,24 +120,6 @@ public class Game {
 	//Accessor method for the board.
 	public Board getBoard() {
 		return this.board;
-	}
-	
-	//Appends a movement to undo stack
-	private void appendUndo(int n) {
-		if (this.numUndo == Game.UNDO_MAX) {
-			for(int i = 1; i <= this.numUndo - 1; i++) {
-				this.undoStack[i - 1] = this.undoStack[i];
-			}
-			this.numUndo--;
-		}
-		this.undoStack[this.numUndo] = n;
-		if (this.numUndo < Game.UNDO_MAX) {
-			this.numUndo++;
-		}
-	}
-	
-	private void popUndo() {
-		this.numUndo--;
 	}	
 	
 	public void displayBoard() {
