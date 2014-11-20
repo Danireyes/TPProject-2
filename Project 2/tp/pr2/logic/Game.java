@@ -13,7 +13,7 @@ public class Game {
 	
 	//Class Attributes
 	private Board board;
-	private Counter turn;
+	private Counter turn;// This attribute is public static because we need in Movement.java
 	private boolean finished;
 	private Counter winner;
 	private boolean full;
@@ -75,7 +75,7 @@ public class Game {
 		return success;
 	}
 	
-	private void changeTurn() {
+	public void changeTurn() {
 		if (this.turn == Counter.WHITE) {
 			this.turn = Counter.BLACK;
 		} else {
@@ -123,5 +123,29 @@ public class Game {
 	
 	public void displayBoard() {
 		this.board.printBoard();		
-	}	
+	}
+	
+
+	public boolean undoStack(int column) {
+		boolean success = false;
+		int h = Util.firstEmptyPosition(board, column);			
+		if (h > Util.ERRORTHRESHOLD) {
+			board.setPosition(column, h, turn);					
+			success = true;
+			undoStack.push(column);					
+			this.finished = board.checkFinished();
+			if (this.finished) {
+				this.winner = turn;
+			}
+			full = board.checkFull();
+			if (full) {
+				this.finished = true;
+				this.winner = Counter.EMPTY;
+			}
+			if (this.finished) {
+				changeTurn();
+			}
+		} 
+		return success;
+	}
 }

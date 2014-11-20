@@ -2,11 +2,12 @@ package tp.pr2.control;
 
 import java.util.Scanner;
 
+import tp.pr2.logic.Connect4Movement;
 import tp.pr2.logic.Game;
-
 
 public class Controller {
 	
+	private Connect4Movement mov;
 	private Game game;
 	private Scanner in;
 	
@@ -27,7 +28,7 @@ public class Controller {
 			inst = readInstruction(this.in);
 			switch (inst) {
 			case MOVE:
-				this.game.executeMove(this.game.getTurn(), this.readColumn());
+				this.mov.executeMove(game.getBoard());
 				break;
 			case UNDO:
 				this.game.undo();
@@ -79,12 +80,5 @@ public class Controller {
 		return inst;		
 	}
 	
-	private int readColumn() {
-		int col;
-		System.out.println("Please provide the column number: ");
-		col = this.in.nextInt();
-		this.in.nextLine();
-		return col;		
-	}
 
 }

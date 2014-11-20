@@ -46,9 +46,7 @@ public class Util {
 		int count = 0;
 		Counter turn = board.getPosition(x, y);
 		//Iterate check if the cell is connected
-		while((count < Game.WINCON) && !finished &&
-				(x >= Board.MINWIDTH) && (y >= Board.MINHEIGHT) && 
-				(x <= board.getWidth()) && (y <= board.getHeight()) &&
+		while((count < Game.WINCON) && !finished && isColumnValid(board, x) && isRowValid(board, y) &&
 				(board.getPosition(x, y) == turn) && (board.getPosition(x, y) != Counter.EMPTY)){
 			/**
 			 * Change x and y according to the direction, to get the next cell
@@ -112,7 +110,18 @@ public class Util {
 		if ((column > board.getWidth()) || 
 				(column < Board.MINWIDTH)) {
 			valid = false;
-			System.out.println("Invalid line, try again."); //TODO: Change message
+			System.out.println("Invalid column, try again."); //TODO: Change message
+		}
+		return valid;		
+	}
+	
+	//Check whether the row is inside the boundaries of the board
+	public static boolean isRowValid(Board board, int row) {
+		boolean valid = true;
+		if ((row > board.getHeight()) || 
+				(row < Board.MINHEIGHT)) {
+			valid = false;
+			System.out.println("Invalid row, try again."); //TODO: Change message
 		}
 		return valid;		
 	}
