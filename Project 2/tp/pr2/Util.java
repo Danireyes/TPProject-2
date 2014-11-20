@@ -105,5 +105,16 @@ public class Util {
 		}
 		return r;
 	}
+	
+	//Check whether the column is inside the boundaries of the board
+	public static boolean isColumnValid(Board board, int column) {
+		boolean valid = true;
+		if ((column > board.getWidth()) || 
+				(column < Board.MINWIDTH)) {
+			valid = false;
+			System.out.println("Invalid line, try again."); //TODO: Change message
+		}
+		return valid;		
+	}
 
 }

@@ -45,8 +45,7 @@ public class Game {
 		boolean success = false;
 		
 		//Check whether column is valid
-		if ((column > this.board.getWidth()) || 
-				(column < Board.getMinwidth()) || 
+		if (!Util.isColumnValid(this.board, column) ||
 				(colour != this.turn) || 
 				this.finished || 
 				this.full) {
