@@ -1,5 +1,6 @@
 package tp.pr2.logic;
 
+import tp.pr2.Util;
 import tp.pr2.logic.Board;
 import tp.pr2.logic.Counter;
 import tp.pr2.logic.Game;
@@ -58,28 +59,24 @@ public class Game {
 			success = false;
 		} else {
 			//SEARCH the column for first free space, then place the counter
-			int h = this.board.getHeight();
-			while ((h >= Board.getMinheight()) && !success) {
-				if (this.board.getPosition(column, h) == Counter.EMPTY) {
-					this.board.setPosition(column, h, this.turn);					
-					success = true;
-					this.appendUndo(column);					
-					this.finished = this.board.checkFinished();
-					if (this.finished) {
-						this.winner = this.turn;
-					}
-					this.full = this.board.checkFull();
-					if (this.full) {
-						this.finished = true;
-						this.winner = Counter.EMPTY;
-					}
-					if (!this.finished) {
-						this.changeTurn();
-					}
-				} else {
-					h--;
-				}				
-			}
+			int h = Util.firstEmptyPosition(this.board, column);			
+			if (h > Util.ERRORTHRESHOLD) {
+				this.board.setPosition(column, h, this.turn);					
+				success = true;
+				this.appendUndo(column);					
+				this.finished = this.board.checkFinished();
+				if (this.finished) {
+					this.winner = this.turn;
+				}
+				this.full = this.board.checkFull();
+				if (this.full) {
+					this.finished = true;
+					this.winner = Counter.EMPTY;
+				}
+				if (!this.finished) {
+					this.changeTurn();
+				}
+			} 
 		}
 		
 		return success;
@@ -98,17 +95,13 @@ public class Game {
 		boolean success = false;
 		if (this.numUndo > 0) {
 			//Searches desired column from top to bottom
-			int h = 1;
-			while ((h <= this.board.getHeight()) && !success) {
-				if (this.board.getPosition(this.undoStack[this.numUndo - 1], h) != Counter.EMPTY) {
-					this.board.setPosition(this.undoStack[this.numUndo - 1], h, Counter.EMPTY);
-					success = true;
-					this.popUndo();	
-					this.changeTurn();
-				} else {
-					h++;
-				}				
-			}	
+			int h = Util.firstEmptyPosition(this.board, this.undoStack[this.numUndo - 1]);		
+			if (h > Util.ERRORTHRESHOLD) {
+				this.board.setPosition(this.undoStack[this.numUndo - 1], h+1, Counter.EMPTY);
+				success = true;
+				this.popUndo();	
+				this.changeTurn();
+			} 				
 		} else {
 			System.out.println("Nothing to undo, please try again");
 		}

@@ -6,8 +6,8 @@ import tp.pr2.logic.Game;
 
 public class Board {
 	
-	private static final int MINWIDTH = 1;
-	private static final int MINHEIGHT = 1;
+	public static final int MINWIDTH = 1;
+	public static final int MINHEIGHT = 1;
 	private int tx, ty;
 	private Counter[][] brd;
 	
