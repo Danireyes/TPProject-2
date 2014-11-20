@@ -37,7 +37,7 @@ public class Game {
 		this.finished = false;
 		this.winner = Counter.EMPTY;
 		this.full = false;
-		this.undoStack = new UndoStack();
+		this.undoStack.clear();
 	}
 	
 	//Executes the move indicated by the column number provided as argument.
