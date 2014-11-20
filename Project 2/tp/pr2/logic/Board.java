@@ -1,8 +1,10 @@
 package tp.pr2.logic;
 
+import tp.pr2.DirectionX;
+import tp.pr2.DirectionY;
+import tp.pr2.Util;
 import tp.pr2.logic.Board;
 import tp.pr2.logic.Counter;
-import tp.pr2.logic.Game;
 
 public class Board {
 	
@@ -116,8 +118,15 @@ public class Board {
 		int y = this.getHeight();
 		
 		while((y >= Board.MINHEIGHT) && !end) {
-			while ((x <= this.getWidth() && !end)) {				
-				end = this.checkCellFinished(x, y);
+			while ((x <= this.getWidth() && !end)) {
+				//Check up
+				end = Util.checkCellInDirection(this, x, y, DirectionX.NOTHING, DirectionY.UP);
+				//Check right
+				if (!end) end = Util.checkCellInDirection(this, x, y, DirectionX.RIGHT, DirectionY.NOTHING);
+				//Check up-left diagonal
+				if (!end) end = Util.checkCellInDirection(this, x, y, DirectionX.LEFT, DirectionY.UP);
+				//Check up-right diagonal
+				if (!end) end = Util.checkCellInDirection(this, x, y, DirectionX.RIGHT, DirectionY.UP);
 				x++;
 			}
 			x = Board.MINWIDTH;
@@ -126,78 +135,6 @@ public class Board {
 		return end;
 	}
 
-	private boolean checkCellFinished(int x, int y) {
-		boolean finished = false;
-		Counter turn = this.getPosition(x, y);
-		int count = 0;
-		//Declare iterators
-		int xi = x;
-		int yi = y;
-		//Check up
-		while((count < Game.WINCON) && !finished &&
-				(xi >= Board.MINWIDTH) && (yi >= Board.MINHEIGHT) && 
-				(xi <= this.getWidth()) && (yi <= this.getHeight()) &&
-				(this.getPosition(xi, yi) == turn) && (this.getPosition(xi, yi) != Counter.EMPTY)){
-			count++;
-			yi--;
-		}		
-		if (count >= Game.WINCON) {
-			finished = true;
-		} else {
-			count = 0;
-		}
-		xi = x;
-		yi = y;
-		//Check right
-		while((count < Game.WINCON) && !finished &&
-				(xi >= Board.MINWIDTH) && (yi >= Board.MINHEIGHT) && 
-				(xi <= this.getWidth()) && (yi <= this.getHeight()) &&
-				(this.getPosition(xi, yi) == turn) && (this.getPosition(xi, yi) != Counter.EMPTY)){
-			count++;
-			xi++;			
-		}
-		if (count >= Game.WINCON) {
-			finished = true;
-		} else {
-			count = 0;
-		}
-		xi = x;
-		yi = y;
-		//Check up-right
-		while((count < Game.WINCON) && !finished &&
-				(xi >= Board.MINWIDTH) && (yi >= Board.MINHEIGHT) && 
-				(xi <= this.getWidth()) && (yi <= this.getHeight()) &&
-				(this.getPosition(xi, yi) == turn) && (this.getPosition(xi, yi) != Counter.EMPTY)){
-			count++;
-			yi--;
-			xi++;
-		}		
-		if (count >= Game.WINCON) {
-			finished = true;
-		} else {
-			count = 0;
-		}
-		xi = x;
-		yi = y;
-		//Check up-left
-		while((count < Game.WINCON) && !finished &&
-				(xi >= Board.MINWIDTH) && (yi >= Board.MINHEIGHT) && 
-				(xi <= this.getWidth()) && (yi <= this.getHeight()) &&
-				(this.getPosition(xi, yi) == turn) && (this.getPosition(xi, yi) != Counter.EMPTY)){
-			count++;
-			yi--;
-			xi--;
-		}
-		if (count >= Game.WINCON) {
-			finished = true;
-		} else {
-			count = 0;
-		}
-		xi = x;
-		yi = y;
-		return finished;
-	}
-	
 	public boolean checkFull() {
 		boolean full = true;
 		int x = Board.MINWIDTH, y = this.getHeight();
