@@ -111,30 +111,6 @@ public class Board {
 		System.out.print(this.toString());
 	}
 	
-	/*Traversing the whole board, check whether the game is finished, update Game accordingly*/
-	public boolean checkFinished() {	
-		boolean end = false;
-		int x = Board.MINWIDTH;
-		int y = this.getHeight();
-		
-		while((y >= Board.MINHEIGHT) && !end) {
-			while ((x <= this.getWidth() && !end)) {
-				//Check up
-				end = Util.checkCellInDirection(this, x, y, DirectionX.NOTHING, DirectionY.UP);
-				//Check right
-				if (!end) end = Util.checkCellInDirection(this, x, y, DirectionX.RIGHT, DirectionY.NOTHING);
-				//Check up-left diagonal
-				if (!end) end = Util.checkCellInDirection(this, x, y, DirectionX.LEFT, DirectionY.UP);
-				//Check up-right diagonal
-				if (!end) end = Util.checkCellInDirection(this, x, y, DirectionX.RIGHT, DirectionY.UP);
-				x++;
-			}
-			x = Board.MINWIDTH;
-			y--;
-		}
-		return end;
-	}
-
 	public boolean checkFull() {
 		boolean full = true;
 		int x = Board.MINWIDTH, y = this.getHeight();

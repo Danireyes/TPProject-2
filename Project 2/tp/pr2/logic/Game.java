@@ -8,8 +8,6 @@ import tp.pr2.logic.Game;
 public class Game {
 	
 	public static final int WINCON = 2;
-	public static final int DIMX = 7;
-	public static final int DIMY = 6;
 	
 	//Class Attributes
 	private Board board;
