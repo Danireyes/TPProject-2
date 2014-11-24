@@ -2,7 +2,7 @@ package tp.pr2.logic;
 
 import tp.pr2.Util;
 
-public class Connect4Movement extends Movement { // Connect4Movement is a subclass of Movement
+public class Connect4Movement extends Move { // Connect4Movement is a subclass of Movement
 	
 	private Game game;
 	private UndoStack undoStack;

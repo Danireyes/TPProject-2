@@ -87,8 +87,13 @@ public class Connect4Rules implements GameRules {
 	 */
 	@Override
 	public Counter nextTurn(Counter lastPlaced, Board b) {
-		// TODO Auto-generated method stub
-		return null;
+		Counter next = Counter.EMPTY;
+		if (lastPlaced == Counter.BLACK) {
+			next = Counter.WHITE;
+		} else if (lastPlaced == Counter.WHITE) {
+			next = Counter.BLACK;
+		}
+		return next;
 	}
 
 }

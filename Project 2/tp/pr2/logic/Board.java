@@ -111,21 +111,7 @@ public class Board {
 		System.out.print(this.toString());
 	}
 	
-	public boolean checkFull() {
-		boolean full = true;
-		int x = Board.MINWIDTH, y = this.getHeight();
-		while((y >= Board.MINHEIGHT) && full) {
-			while ((x <= this.getWidth() && full)) {				
-				if (this.getPosition(x, y) == Counter.EMPTY) {
-					full = false;
-				}
-				x++;
-			}
-			x = Board.MINWIDTH;
-			y--;
-		}
-		return full;
-	}
+	
 	public static int getMinwidth() {
 		return MINWIDTH;
 	}

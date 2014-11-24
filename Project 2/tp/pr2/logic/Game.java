@@ -18,10 +18,10 @@ public class Game {
 	private UndoStack undoStack;
 
 	//Constructs a new game.
-	public Game() {
+	public Game(GameRules rules) {
 		//Initialize game
-		this.board = new Board(Game.DIMX, Game.DIMY);
-		this.turn = Counter.WHITE;
+		this.board = rules.initializeBoard();
+		this.turn = rules.initialPlayer();
 		this.finished = false;
 		this.winner = Counter.EMPTY;
 		this.full = false;
@@ -29,6 +29,7 @@ public class Game {
 	}
 	
 	//Restarts the current game. This operation cannot be undone.
+	//TODO: ADAPT TO NEW CONFIG
 	public void reset() {
 		this.board.reset();
 		this.turn = Counter.WHITE;
@@ -39,7 +40,7 @@ public class Game {
 	}
 	
 	//Executes the move indicated by the column number provided as argument.
-	public boolean executeMove(Counter colour, int column) {
+	public boolean executeMove(Move move) {
 		boolean success = false;
 		
 		//Check whether column is valid
@@ -55,7 +56,7 @@ public class Game {
 				this.board.setPosition(column, h, this.turn);					
 				success = true;
 				this.undoStack.push(column);					
-				this.finished = this.board.checkFinished();
+				this.finished = GameRulescheckFinished();
 				if (this.finished) {
 					this.winner = this.turn;
 				}
