@@ -5,5 +5,7 @@ public enum Instruction {
 	UNDO,
 	RESTART,
 	EXIT,
-	ERROR
+	ERROR,
+	PLAY_C4,
+	PLAY_CO
 }

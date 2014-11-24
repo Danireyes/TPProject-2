@@ -2,18 +2,26 @@ package tp.pr2.control;
 
 import java.util.Scanner;
 
+import tp.pr2.logic.ComplicaMovement;
+import tp.pr2.logic.ComplicaRules;
 import tp.pr2.logic.Connect4Movement;
+import tp.pr2.logic.Connect4Rules;
 import tp.pr2.logic.Game;
+import tp.pr2.logic.GameRules;
+import tp.pr2.logic.Move;
 
 public class Controller {
 	
-	private Connect4Movement mov;
+	private Move mov;
 	private Game game;
 	private Scanner in;
+	private GameRules rules;
 	
 	public Controller(Game g, java.util.Scanner in)  {
 		this.game = g;
 		this.in = in;
+		this.rules = new Connect4Rules();
+		this.mov = new Connect4Movement();
 	}
 
 	public void run() {
@@ -28,13 +36,15 @@ public class Controller {
 			inst = readInstruction(this.in);
 			switch (inst) {
 			case MOVE:
-				this.mov.executeMove(game.getBoard());
+				this.mov.setCol(this.readColumn());
+				this.mov.setPlayer(this.game.getTurn());
+				this.game.executeMove(this.mov);
 				break;
 			case UNDO:
-				this.game.undo();
+				this.mov.undo(game.getBoard());
 				break;
 			case RESTART:
-				this.game.reset();
+				this.game.reset(this.rules);
 				System.out.println("Game restarted.");
 				break;
 			case ERROR:
@@ -42,8 +52,18 @@ public class Controller {
 				System.out.println("Invalid move, please try again.");
 			case EXIT:
 				break;
+			case PLAY_C4:
+				this.rules = new Connect4Rules();
+				this.mov = new Connect4Movement();
+				this.game.reset(this.rules);
+				break;
+			case PLAY_CO:
+				this.rules = new ComplicaRules();
+				this.mov = new ComplicaMovement();
+				this.game.reset(this.rules);
+				break;
 			default:
-				break;			
+				break;					
 			}						
 		}
 		if (this.game.isFinished()) {
@@ -71,7 +91,11 @@ public class Controller {
 		instString = instString.toUpperCase();
 		if (instString.equals("MAKE A MOVE")) {
 			instString = "MOVE";
-		}		
+		} else if (instString.equals("PLAY C4")){
+			instString = "PLAY_C4";
+		} else if (instString.equals("PLAY CO")){
+			instString = "PLAY_CO";
+		}
 		try {
 			inst = Instruction.valueOf(instString);
 		} catch (IllegalArgumentException e) {
@@ -80,5 +104,12 @@ public class Controller {
 		return inst;		
 	}
 	
+	private int readColumn() {
+		int col;
+		System.out.println("Please provide the column number: ");
+		col = this.in.nextInt();
+		this.in.nextLine();
+		return col;		
+	}
 
 }

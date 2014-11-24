@@ -14,8 +14,9 @@ public class Game {
 	private Counter turn;// This attribute is public static because we need in Movement.java
 	private boolean finished;
 	private Counter winner;
-	private boolean full;
+	private boolean draw;
 	private UndoStack undoStack;
+	private GameRules rules;
 
 	//Constructs a new game.
 	public Game(GameRules rules) {
@@ -24,78 +25,61 @@ public class Game {
 		this.turn = rules.initialPlayer();
 		this.finished = false;
 		this.winner = Counter.EMPTY;
-		this.full = false;
+		this.draw = false;
 		this.undoStack = new UndoStack();
+		this.rules = rules;
 	}
 	
 	//Restarts the current game. This operation cannot be undone.
-	//TODO: ADAPT TO NEW CONFIG
-	public void reset() {
+	public void reset(GameRules rules) {
 		this.board.reset();
 		this.turn = Counter.WHITE;
 		this.finished = false;
 		this.winner = Counter.EMPTY;
-		this.full = false;
+		this.draw = false;
 		this.undoStack.clear();
 	}
-	
+
 	//Executes the move indicated by the column number provided as argument.
 	public boolean executeMove(Move move) {
 		boolean success = false;
 		
 		//Check whether column is valid
-		if (!Util.isColumnValid(this.board, column) ||
-				(colour != this.turn) || 
-				this.finished || 
-				this.full) {
+		if ((move.getPlayer() != this.turn) || 
+				this.winner != Counter.EMPTY || 
+				this.draw) {
 			success = false;
-		} else {
-			//SEARCH the column for first free space, then place the counter
-			int h = Util.firstEmptyPosition(this.board, column);			
-			if (h > Util.ERRORTHRESHOLD) {
-				this.board.setPosition(column, h, this.turn);					
-				success = true;
-				this.undoStack.push(column);					
-				this.finished = GameRulescheckFinished();
-				if (this.finished) {
-					this.winner = this.turn;
-				}
-				this.full = this.board.checkFull();
-				if (this.full) {
-					this.finished = true;
-					this.winner = Counter.EMPTY;
-				}
-				if (!this.finished) {
-					this.changeTurn();
-				}
-			} 
-		}
-		
+		} else {	
+			success = move.executeMove(this.board);	
+			this.undoStack.push(move);	
+			//Update the winner
+			this.winner = this.rules.isWinner(move, this.board);
+			//Check if the game has ended in a draw
+			this.draw = this.rules.draw(move.getPlayer(), this.board);
+			if (this.draw) {					
+				this.winner = Counter.EMPTY;
+			}
+			if (this.winner == Counter.EMPTY && success) {
+				this.turn = this.rules.nextTurn(this.turn, this.board);
+			}		
+		}		
 		return success;
 	}
-	
-	public void changeTurn() {
-		if (this.turn == Counter.WHITE) {
-			this.turn = Counter.BLACK;
-		} else {
-			this.turn = Counter.WHITE;
-		}
-	}
+
 
 	//Undo the last movement executed
 	public boolean undo() {		
 		boolean success = false;
+		
 		if (!this.undoStack.isEmpty()) {
-			//Searches desired column from top to bottom
-			int h = Util.firstEmptyPosition(this.board, this.undoStack.getLastElement());		
-			if (h > Util.ERRORTHRESHOLD) {
-				this.board.setPosition(this.undoStack.getLastElement(), h+1, Counter.EMPTY);
-				success = true;
-				this.undoStack.pop();	
-				this.changeTurn();
-			} 				
+			Move mov = this.undoStack.getLastElement();
+			mov.undo(this.board);			
+			this.undoStack.pop();	
+			this.turn = this.rules.nextTurn(this.turn, this.board);
+			success = true;			
 		} else {
 			System.out.println("Nothing to undo, please try again");
+			success = false;
 		}
 		return success;
 	}
@@ -122,29 +106,7 @@ public class Game {
 	
 	public void displayBoard() {
 		this.board.printBoard();		
-	}
+	}	
 	
-
-	public boolean undoStack(int column) {
-		boolean success = false;
-		int h = Util.firstEmptyPosition(board, column);			
-		if (h > Util.ERRORTHRESHOLD) {
-			board.setPosition(column, h, turn);					
-			success = true;
-			undoStack.push(column);					
-			this.finished = board.checkFinished();
-			if (this.finished) {
-				this.winner = turn;
-			}
-			full = board.checkFull();
-			if (full) {
-				this.finished = true;
-				this.winner = Counter.EMPTY;
-			}
-			if (this.finished) {
-				changeTurn();
-			}
-		} 
-		return success;
-	}
+	
 }
