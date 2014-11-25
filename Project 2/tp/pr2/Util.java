@@ -7,6 +7,7 @@ import tp.pr2.logic.Game;
 public class Util {
 	
 	//Indicates what is the value below which error codes are assigned
+	//Values lower than errorthreshold are error codes
 	public static final int ERRORTHRESHOLD = 0;
 
 	/** Iterates through the column to find the first empty position at the top
