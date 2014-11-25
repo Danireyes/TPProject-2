@@ -24,7 +24,7 @@ public class Connect4Rules implements GameRules {
 	 */
 	@Override
 	public Counter initialPlayer() {
-		return this.STARTPLAYER;
+		return Connect4Rules.STARTPLAYER;
 	}
 
 	/* (non-Javadoc)
