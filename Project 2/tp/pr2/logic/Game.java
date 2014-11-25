@@ -1,6 +1,5 @@
 package tp.pr2.logic;
 
-import tp.pr2.Util;
 import tp.pr2.logic.Board;
 import tp.pr2.logic.Counter;
 import tp.pr2.logic.Game;
