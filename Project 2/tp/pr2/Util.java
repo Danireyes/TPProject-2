@@ -22,7 +22,7 @@ public class Util {
 	public static int firstEmptyPosition(Board board, int col) {
 		int row = board.getHeight();
 		//Error-checking
-		if ((col < Board.MINWIDTH) || (col > board.getWidth())) {
+		if (!Util.isColumnValid(board, col)) {
 			//Column is out of bounds
 			row = Util.ERRORTHRESHOLD - 1;
 		}
@@ -47,7 +47,9 @@ public class Util {
 		int count = 0;
 		Counter turn = board.getPosition(x, y);
 		//Iterate check if the cell is connected
-		while((count < Game.WINCON) && !finished && isColumnValid(board, x) && isRowValid(board, y) &&
+		while((count < Game.WINCON) && !finished &&
+				(x >= Board.MINWIDTH) && (y >= Board.MINHEIGHT) && 
+				(x <= board.getWidth()) && (y <= board.getHeight()) &&
 				(board.getPosition(x, y) == turn) && (board.getPosition(x, y) != Counter.EMPTY)){
 			/**
 			 * Change x and y according to the direction, to get the next cell
@@ -111,7 +113,7 @@ public class Util {
 		if ((column > board.getWidth()) || 
 				(column < Board.MINWIDTH)) {
 			valid = false;
-			System.out.println("Invalid column, try again."); //TODO: Change message
+			System.out.println("Invalid column, try again."); 
 		}
 		return valid;		
 	}
