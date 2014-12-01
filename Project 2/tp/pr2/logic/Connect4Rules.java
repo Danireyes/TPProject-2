@@ -6,9 +6,9 @@ import tp.pr2.Util;
 
 public class Connect4Rules implements GameRules {
 
-	public static final int DIMX = 7;
-	public static final int DIMY = 6;
-	public static final Counter STARTPLAYER = Counter.WHITE;
+	private static final int DIMX = 7;
+	private static final int DIMY = 6;
+	private static final Counter STARTPLAYER = Counter.WHITE;
 	
 	/* (non-Javadoc)
 	 * @see tp.pr2.logic.GameRules#initializeBoard()
