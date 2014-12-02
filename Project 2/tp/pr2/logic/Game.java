@@ -20,7 +20,7 @@ public class Game {
 	//Constructs a new game.
 	public Game(GameRules rules) {
 		//Initialize game
-		this.board = rules.initializeBoard();
+		this.board = rules.newBoard();
 		this.turn = rules.initialPlayer();
 		this.finished = false;
 		this.winner = Counter.EMPTY;
@@ -31,12 +31,13 @@ public class Game {
 	
 	//Restarts the current game. This operation cannot be undone.
 	public void reset(GameRules rules) {
-		this.board.reset();
-		this.turn = Counter.WHITE;
+		this.board = rules.newBoard();
+		this.turn = rules.initialPlayer();
 		this.finished = false;
 		this.winner = Counter.EMPTY;
 		this.draw = false;
 		this.undoStack.clear();
+		this.rules = rules;
 	}
 
 	//Executes the move indicated by the column number provided as argument.
@@ -52,9 +53,9 @@ public class Game {
 			success = move.executeMove(this.board);	
 			this.undoStack.push(move);	
 			//Update the winner
-			this.winner = this.rules.isWinner(move, this.board);
+			this.winner = this.rules.winningMove(move, this.board);
 			//Check if the game has ended in a draw
-			this.draw = this.rules.draw(move.getPlayer(), this.board);
+			this.draw = this.rules.isDraw(move.getPlayer(), this.board);
 			if (this.draw) {					
 				this.winner = Counter.EMPTY;
 			}

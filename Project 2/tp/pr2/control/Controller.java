@@ -2,26 +2,21 @@ package tp.pr2.control;
 
 import java.util.Scanner;
 
-import tp.pr2.logic.ComplicaMovement;
-import tp.pr2.logic.ComplicaRules;
-import tp.pr2.logic.Connect4Movement;
-import tp.pr2.logic.Connect4Rules;
+import tp.pr2.logic.ComplicaMove;
+import tp.pr2.logic.Connect4Move;
 import tp.pr2.logic.Game;
-import tp.pr2.logic.GameRules;
 import tp.pr2.logic.Move;
 
 public class Controller {
 	
-	private Move mov;
 	private Game game;
 	private Scanner in;
-	private GameRules rules;
+	private DifferentRules rules;
 	
 	public Controller(Game g, java.util.Scanner in)  {
 		this.game = g;
 		this.in = in;
-		this.rules = new Connect4Rules();
-		this.mov = new Connect4Movement();
+		this.rules = DifferentRules.CONNECT4;
 	}
 
 	public void run() {
@@ -36,15 +31,21 @@ public class Controller {
 			inst = readInstruction(this.in);
 			switch (inst) {
 			case MOVE:
-				this.mov.setCol(this.readColumn());
-				this.mov.setPlayer(this.game.getTurn());
-				this.game.executeMove(this.mov);
+				Move mov = null;
+				if (this.rules == DifferentRules.CONNECT4) {
+					mov = new Connect4Move(0, null);
+				} else if (this.rules == DifferentRules.COMPLICA) {
+					mov = new ComplicaMove();
+				}
+				mov.setCol(this.readColumn());
+				mov.setPlayer(this.game.getTurn());
+				this.game.executeMove(mov);
 				break;
 			case UNDO:
-				this.mov.undo(game.getBoard());
+				this.game.undo();
 				break;
 			case RESTART:
-				this.game.reset(this.rules);
+				this.game.reset(this.rules.getRules());
 				System.out.println("Game restarted.");
 				break;
 			case ERROR:
@@ -53,14 +54,12 @@ public class Controller {
 			case EXIT:
 				break;
 			case PLAY_C4:
-				this.rules = new Connect4Rules();
-				this.mov = new Connect4Movement();
-				this.game.reset(this.rules);
+				this.rules = DifferentRules.CONNECT4;
+				this.game.reset(this.rules.getRules());
 				break;
 			case PLAY_CO:
-				this.rules = new ComplicaRules();
-				this.mov = new ComplicaMovement();
-				this.game.reset(this.rules);
+				this.rules = DifferentRules.COMPLICA;
+				this.game.reset(this.rules.getRules());
 				break;
 			default:
 				break;					

@@ -6,15 +6,15 @@ import tp.pr2.Util;
 
 public class ComplicaRules implements GameRules {
 	
-	private static final int DIMX = 7;
-	private static final int DIMY = 4;
+	private static final int DIMX = 4;
+	private static final int DIMY = 7;
 	private static final Counter STARTPLAYER = Counter.WHITE;
 
 	/* (non-Javadoc)
 	 * @see tp.pr2.logic.GameRules#initializeBoard()
 	 */
 	@Override
-	public Board initializeBoard() {
+	public Board newBoard() {
 		Board board = new Board(ComplicaRules.DIMX, ComplicaRules.DIMY);
 		return board;
 	}
@@ -31,7 +31,7 @@ public class ComplicaRules implements GameRules {
 	 * @see tp.pr2.logic.GameRules#isWinner(tp.pr2.logic.Move, tp.pr2.logic.Board)
 	 */
 	@Override
-	public Counter isWinner(Move lastMove, Board b) {
+	public Counter winningMove(Move lastMove, Board b) {
 		boolean blackWins = false;
 		boolean whiteWins = false;
 		boolean end = false;
@@ -39,8 +39,8 @@ public class ComplicaRules implements GameRules {
 		int y = b.getHeight();
 		Counter winner = Counter.EMPTY;
 		
-		while((y >= Board.MINHEIGHT) && !end) {
-			while ((x <= b.getWidth() && !end)) {
+		while((y >= Board.MINHEIGHT) && !whiteWins || !blackWins) {
+			while ((x <= b.getWidth() && !whiteWins || !blackWins)) {
 				//Check up
 				end = Util.checkCellInDirection(b, x, y, DirectionX.NOTHING, DirectionY.UP);
 				//Check right
@@ -74,7 +74,7 @@ public class ComplicaRules implements GameRules {
 	 * @see tp.pr2.logic.GameRules#draw(tp.pr2.logic.Counter, tp.pr2.logic.Board)
 	 */
 	@Override
-	public boolean draw(Counter lastPlaced, Board b) {
+	public boolean isDraw(Counter lastPlaced, Board b) {
 		// TODO Auto-generated method stub
 		return false;
 	}
