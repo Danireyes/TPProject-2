@@ -5,7 +5,8 @@ import tp.pr2.Util;
 public class Connect4Move extends Move { // Connect4Movement is a subclass of Move
 
 	public Connect4Move(int moveColumn, Counter moveColour) {
-		
+		setCol(moveColumn);
+		setPlayer(moveColour);
 	}
 	
 	public boolean executeMove(Board board) {

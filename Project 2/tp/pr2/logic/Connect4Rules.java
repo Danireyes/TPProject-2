@@ -13,7 +13,6 @@ public class Connect4Rules implements GameRules {
 	/* (non-Javadoc)
 	 * @see tp.pr2.logic.GameRules#initializeBoard()
 	 */
-	@Override
 	public Board newBoard() {
 		Board board = new Board(Connect4Rules.DIMX, Connect4Rules.DIMY);
 		return board;
@@ -22,7 +21,6 @@ public class Connect4Rules implements GameRules {
 	/* (non-Javadoc)
 	 * @see tp.pr2.logic.GameRules#initialPlayer()
 	 */
-	@Override
 	public Counter initialPlayer() {
 		return Connect4Rules.STARTPLAYER;
 	}
@@ -32,7 +30,6 @@ public class Connect4Rules implements GameRules {
 	 * Traversing the whole board, check whether the game is finished, 
 	 * and returns the winner.
 	 */
-	@Override
 	public Counter winningMove(Move lastMove, Board b) {
 		boolean end = false;
 		int x = Board.MINWIDTH;
@@ -65,7 +62,6 @@ public class Connect4Rules implements GameRules {
 	 * @see tp.pr2.logic.GameRules#draw(tp.pr2.logic.Counter, tp.pr2.logic.Board)
 	 * Traverses the board looking for n empty cell
 	 */
-	@Override
 	public boolean isDraw(Counter lastPlaced, Board b) {
 		boolean full = true;
 		int x = Board.MINWIDTH, y = b.getHeight();
@@ -85,7 +81,6 @@ public class Connect4Rules implements GameRules {
 	/* (non-Javadoc)
 	 * @see tp.pr2.logic.GameRules#nextTurn(tp.pr2.logic.Counter, tp.pr2.logic.Board)
 	 */
-	@Override
 	public Counter nextTurn(Counter lastPlaced, Board b) {
 		Counter next = Counter.EMPTY;
 		if (lastPlaced == Counter.BLACK) {

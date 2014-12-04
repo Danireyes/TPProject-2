@@ -35,7 +35,7 @@ public class Controller {
 				if (this.rules == DifferentRules.CONNECT4) {
 					mov = new Connect4Move(0, null);
 				} else if (this.rules == DifferentRules.COMPLICA) {
-					mov = new ComplicaMove();
+					mov = new ComplicaMove(0, null);
 				}
 				mov.setCol(this.readColumn());
 				mov.setPlayer(this.game.getTurn());

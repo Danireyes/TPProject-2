@@ -1,8 +1,5 @@
 package tp.pr2.logic;
 
-import tp.pr2.DirectionX;
-import tp.pr2.DirectionY;
-import tp.pr2.Util;
 import tp.pr2.logic.Board;
 import tp.pr2.logic.Counter;
 
@@ -134,4 +131,19 @@ public class Board {
 		return cell;
 	}
 	
+	public Board moveDownCells(Board board, int col) {
+		for (int i = board.getHeight() - 1; i > Board.MINHEIGHT; i--) {
+			board.brd[col][i + 1] = board.brd[col][i];
+		}
+		board.brd[col][Board.MINHEIGHT] = Counter.EMPTY;
+		return board;
+	}
+	
+	public Board moveUpCells(Board board, int col) {
+		for (int i = 1; i < (board.getHeight() - 1); i++) {
+			board.brd[col][i] = board.brd[col][i + 1];
+		}
+		board.brd[col][board.getHeight() - 1] = Counter.EMPTY;
+		return board;
+	}
 }

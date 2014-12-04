@@ -20,17 +20,17 @@ public class Util {
 	 * @return 
 	 */
 	public static int firstEmptyPosition(Board board, int col) {
-		int row = board.getHeight();
+		int row = Board.MINHEIGHT;
 		//Error-checking
 		if (!Util.isColumnValid(board, col)) {
 			//Column is out of bounds
-			row = Util.ERRORTHRESHOLD - 1;
+			row = Util.ERRORTHRESHOLD;
 		}
-		while ((row >= Board.MINHEIGHT) && 
-				(board.getPosition(col, row) != Counter.EMPTY)) {			
-				row--;
+		while ((row <= board.getHeight()) && 
+				(board.getPosition(col, row) == Counter.EMPTY)) {			
+				row++;
 		}
-		return row;
+		return row - 1;
 	}
 	
 	/**
