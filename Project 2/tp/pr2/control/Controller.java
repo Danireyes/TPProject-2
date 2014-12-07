@@ -33,9 +33,9 @@ public class Controller {
 			case MOVE:
 				Move mov = null;
 				if (this.rules == DifferentRules.CONNECT4) {
-					mov = new Connect4Move(0, null);
+					mov = new Connect4Move(1, this.game.getTurn());
 				} else if (this.rules == DifferentRules.COMPLICA) {
-					mov = new ComplicaMove(0, null);
+					mov = new ComplicaMove(1, this.game.getTurn());
 				}
 				mov.setCol(this.readColumn());
 				mov.setPlayer(this.game.getTurn());
