@@ -70,7 +70,6 @@ public class Game {
 	//Undo the last movement executed
 	public boolean undo() {		
 		boolean success = false;
-		
 		if (!this.undoStack.isEmpty()) {
 			Move mov = this.undoStack.getLastElement();
 			mov.undo(this.board);			

@@ -22,6 +22,7 @@ public class Controller {
 	public void run() {
 		Instruction inst = Instruction.ERROR;
 		String currentTurn;
+		int moves = 0;
 		while (!this.game.isFinished() && !(inst.equals(Instruction.EXIT))) {
 			this.game.displayBoard();
 			System.out.println("");
@@ -33,20 +34,27 @@ public class Controller {
 			case MOVE:
 				Move mov = null;
 				if (this.rules == DifferentRules.CONNECT4) {
-					mov = new Connect4Move(1, this.game.getTurn());
-				} else if (this.rules == DifferentRules.COMPLICA) {
-					mov = new ComplicaMove(1, this.game.getTurn());
+					mov = new Connect4Move(readColumn(), this.game.getTurn());
+				} 
+				else if (this.rules == DifferentRules.COMPLICA) {
+					mov = new ComplicaMove(readColumn(), this.game.getTurn());
 				}
-				mov.setCol(this.readColumn());
-				mov.setPlayer(this.game.getTurn());
+				moves++;
 				this.game.executeMove(mov);
 				break;
 			case UNDO:
-				this.game.undo();
+				if (moves > 0){
+					this.game.undo();
+					moves--;
+				}
+				else {
+					System.out.println("You have to make a move... \n");
+				}
 				break;
 			case RESTART:
 				this.game.reset(this.rules.getRules());
 				System.out.println("Game restarted.");
+				moves = 0;
 				break;
 			case ERROR:
 				//non existing command
@@ -56,10 +64,12 @@ public class Controller {
 			case PLAY_C4:
 				this.rules = DifferentRules.CONNECT4;
 				this.game.reset(this.rules.getRules());
+				moves = 0;
 				break;
 			case PLAY_CO:
 				this.rules = DifferentRules.COMPLICA;
 				this.game.reset(this.rules.getRules());
+				moves = 0;
 				break;
 			default:
 				break;					
