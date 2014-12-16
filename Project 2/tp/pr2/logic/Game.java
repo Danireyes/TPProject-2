@@ -51,6 +51,7 @@ public class Game {
 			success = false;
 		} else {	
 			success = move.executeMove(this.board);	
+			//A complete and correct movement is pushed
 			this.undoStack.push(move);	
 			//Update the winner
 			this.winner = this.rules.winningMove(move, this.board);
@@ -77,7 +78,7 @@ public class Game {
 			this.turn = this.rules.nextTurn(this.turn, this.board);
 			success = true;			
 		} else {
-			System.out.println("Nothing to undo, please try again");
+			System.err.println("Nothing to undo, please try again");
 			success = false;
 		}
 		return success;

@@ -6,7 +6,6 @@ import tp.pr2.Util;
 
 public class ComplicaRules implements GameRules {
 	
-	private static final int numOfUndo = 10;
 	private static final int DIMX = 4;
 	private static final int DIMY = 7;
 	private static final Counter STARTPLAYER = Counter.WHITE;
@@ -15,7 +14,7 @@ public class ComplicaRules implements GameRules {
 	 * @see tp.pr2.logic.GameRules#initializeBoard()
 	 */
 	public Board newBoard() {
-		Board board = new Board(ComplicaRules.DIMX, ComplicaRules.DIMY + numOfUndo);
+		Board board = new Board(ComplicaRules.DIMX, ComplicaRules.DIMY);
 		return board;
 	}
 
@@ -37,8 +36,8 @@ public class ComplicaRules implements GameRules {
 		int y = b.getHeight();
 		Counter winner = Counter.EMPTY;
 		
-		while((y >= Board.MINHEIGHT) && !whiteWins || !blackWins) {
-			while ((x <= b.getWidth() && !whiteWins || !blackWins)) {
+		while((y >= Board.MINHEIGHT) && (!whiteWins || !blackWins)) {
+			while ((x <= b.getWidth()) && (!whiteWins || !blackWins)) {
 				//Check up
 				end = Util.checkCellInDirection(b, x, y, DirectionX.NOTHING, DirectionY.UP);
 				//Check right

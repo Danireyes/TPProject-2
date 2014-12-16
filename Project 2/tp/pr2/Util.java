@@ -113,7 +113,7 @@ public class Util {
 		if ((column > board.getWidth()) || 
 				(column < Board.MINWIDTH)) {
 			valid = false;
-			System.out.println("Invalid column, try again."); 
+			System.err.println("Invalid column, try again."); 
 		}
 		return valid;		
 	}
@@ -124,7 +124,7 @@ public class Util {
 		if ((row > board.getHeight()) || 
 				(row < Board.MINHEIGHT)) {
 			valid = false;
-			System.out.println("Invalid row, try again."); //TODO: Change message
+			System.err.println("Invalid row, try again."); //TODO: Change message
 		}
 		return valid;		
 	}

@@ -131,19 +131,5 @@ public class Board {
 		return cell;
 	}
 	
-	public Board moveDownCells(Board board, int col) {
-		for (int i = board.getHeight() - 1; i > Board.MINHEIGHT; i--) {
-			board.brd[col][i + 1] = board.brd[col][i];
-		}
-		board.brd[col][Board.MINHEIGHT] = Counter.EMPTY;
-		return board;
-	}
 	
-	public Board moveUpCells(Board board, int col) {
-		for (int i = 1; i < (board.getHeight() - 1); i++) {
-			board.brd[col][i] = board.brd[col][i + 1];
-		}
-		board.brd[col][board.getHeight() - 1] = Counter.EMPTY;
-		return board;
-	}
 }
