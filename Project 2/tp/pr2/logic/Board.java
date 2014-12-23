@@ -1,5 +1,6 @@
 package tp.pr2.logic;
 
+import tp.pr2.Util;
 import tp.pr2.logic.Board;
 import tp.pr2.logic.Counter;
 
@@ -59,7 +60,9 @@ public class Board {
 	}
 	
 	public void setPosition (int x, int y, Counter colour) {
-		this.brd[x-1][y-1] = colour;
+		if ((Util.isColumnValid(this, x) && (Util.isRowValid(this, y)))){
+			this.brd[x-1][y-1] = colour;
+		}
 	}
 	
 	public void reset() {

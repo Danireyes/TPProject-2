@@ -46,24 +46,31 @@ public class ComplicaRules implements GameRules {
 				if (!end) end = Util.checkCellInDirection(b, x, y, DirectionX.LEFT, DirectionY.UP);
 				//Check up-right diagonal
 				if (!end) end = Util.checkCellInDirection(b, x, y, DirectionX.RIGHT, DirectionY.UP);
-				//Increase x counter
-				if(!end) {
-					x++;
-				} else { //end is true
+				
+				//Assign winner (if any)
+				if (end){ //end is true
 					if (b.getPosition(x, y) == Counter.BLACK) {
 						blackWins = true;
 					} else if (b.getPosition(x, y) == Counter.WHITE) {
 						whiteWins = true;
 					}
 				}
-					
+				
+				if ((whiteWins && !blackWins) || (!whiteWins && blackWins)) {
+					winner = b.getPosition(x, y);
+				} else {
+					winner = Counter.EMPTY;
+				}
+				//Increase x counter
+				if(!whiteWins || !blackWins) {
+					x++;
+				} 
 			}
-			if (end && (!whiteWins || !blackWins)) {
-				winner = b.getPosition(x, y);
-			}
+			
 			x = Board.MINWIDTH;
 			y--;
 		}
+		
 		return winner;
 	}
 

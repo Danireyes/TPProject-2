@@ -47,7 +47,7 @@ public class Util {
 		int count = 0;
 		Counter turn = board.getPosition(x, y);
 		//Iterate check if the cell is connected
-		while((count < Game.WINCON) && !finished &&
+		while((count <= Game.WINCON) && !finished &&
 				(x >= Board.MINWIDTH) && (y >= Board.MINHEIGHT) && 
 				(x <= board.getWidth()) && (y <= board.getHeight()) &&
 				(board.getPosition(x, y) == turn) && (board.getPosition(x, y) != Counter.EMPTY)){

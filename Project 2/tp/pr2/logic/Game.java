@@ -6,7 +6,7 @@ import tp.pr2.logic.Game;
 
 public class Game {
 	
-	public static final int WINCON = 2;
+	public static final int WINCON = 4;
 	
 	//Class Attributes
 	private Board board;
@@ -59,7 +59,9 @@ public class Game {
 			this.draw = this.rules.isDraw(move.getPlayer(), this.board);
 			if (this.draw) {					
 				this.winner = Counter.EMPTY;
-			}
+			} else if (this.winner != Counter.EMPTY) {
+				this.finished = true;
+			}			
 			if (this.winner == Counter.EMPTY && success) {
 				this.turn = this.rules.nextTurn(this.turn, this.board);
 			}		
