@@ -26,9 +26,14 @@ public class Util {
 			//Column is out of bounds
 			row = Util.ERRORTHRESHOLD;
 		}
+		else {
 		while ((row <= board.getHeight()) && 
 				(board.getPosition(col, row) == Counter.EMPTY)) {			
 				row++;
+		}
+		if (!Util.isRowValid(board, row)) {
+			row = Util.ERRORTHRESHOLD;
+		}
 		}
 		return row - 1;
 	}
@@ -112,8 +117,7 @@ public class Util {
 		boolean valid = true;
 		if ((column > board.getWidth()) || 
 				(column < Board.MINWIDTH)) {
-			valid = false;
-			System.err.println("Invalid column, try again."); 
+			valid = false; 
 		}
 		return valid;		
 	}
@@ -121,10 +125,8 @@ public class Util {
 	//Check whether the row is inside the boundaries of the board
 	public static boolean isRowValid(Board board, int row) {
 		boolean valid = true;
-		if ((row > board.getHeight()) || 
-				(row < Board.MINHEIGHT)) {
+		if (row <= Board.MINHEIGHT) {
 			valid = false;
-			System.err.println("Invalid row, try again."); //TODO: Change message
 		}
 		return valid;		
 	}

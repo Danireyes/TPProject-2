@@ -51,6 +51,9 @@ public class Game {
 			success = false;
 		} else {	
 			success = move.executeMove(this.board);	
+			if (!success) {
+				System.err.println("Invalid movement try again!!");
+			}
 			//A complete and correct movement is pushed
 			this.undoStack.push(move);	
 			//Update the winner
@@ -59,10 +62,11 @@ public class Game {
 			this.draw = this.rules.isDraw(move.getPlayer(), this.board);
 			if (this.draw) {					
 				this.winner = Counter.EMPTY;
+				this.finished = true;
 			} else if (this.winner != Counter.EMPTY) {
 				this.finished = true;
 			}			
-			if (this.winner == Counter.EMPTY && success) {
+			if (this.winner == Counter.EMPTY && success && !this.finished) {
 				this.turn = this.rules.nextTurn(this.turn, this.board);
 			}		
 		}		
@@ -94,6 +98,10 @@ public class Game {
 	//Returns the color of the winner. It is only valid if the game has finished (isFinished() == true).
 	public Counter getWinner() {
 		return this.winner;
+	}
+	
+	public void setWinner(Counter c) {
+		this.winner = c;
 	}
 	
 	//Returns true if the game has finished and false otherwise.

@@ -21,7 +21,7 @@ public class Controller {
 
 	public void run() {
 		Instruction inst = Instruction.ERROR;
-		String currentTurn;		
+		String currentTurn;
 		while (!this.game.isFinished() && !(inst.equals(Instruction.EXIT))) {
 			this.game.displayBoard();
 			System.out.println("");
@@ -41,7 +41,7 @@ public class Controller {
 				this.game.executeMove(mov);
 				break;
 			case UNDO:				
-				this.game.undo();				
+				this.game.undo();
 				break;
 			case RESTART:
 				this.game.reset(this.rules.getRules());

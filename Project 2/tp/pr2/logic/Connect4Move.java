@@ -13,8 +13,7 @@ public class Connect4Move extends Move { // Connect4Movement is a subclass of Mo
 		boolean success = false;
 		int h = Util.firstEmptyPosition(board, this.getCol());	
 		//Check whether column is valid
-		if (!Util.isColumnValid(board, this.getCol()) || 
-				(h < Util.ERRORTHRESHOLD)) {
+		if (h < Util.ERRORTHRESHOLD) {
 			success = false;
 		} else {			
 			board.setPosition(this.getCol(), Util.firstEmptyPosition(board, this.getCol()), this.getPlayer());	
@@ -26,8 +25,14 @@ public class Connect4Move extends Move { // Connect4Movement is a subclass of Mo
 	public void undo(Board board) {		
 			//Searches desired column from top to bottom
 		int h = Util.firstEmptyPosition(board, this.getCol());		
-		if (h >= Util.ERRORTHRESHOLD) {
+		if (h != board.getHeight()) {
+			if (h < Util.ERRORTHRESHOLD) {
+				h = Board.MINHEIGHT - 1;
+			}
 			board.setPosition(this.getCol(), h+1, Counter.EMPTY);
-		} 				
+		}
+		else {
+			System.err.println("Nothing to undo.");
+		}
 	}	
 }

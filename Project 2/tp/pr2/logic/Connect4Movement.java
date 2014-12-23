@@ -9,7 +9,7 @@ public class Connect4Movement extends Move { // Connect4Movement is a subclass o
 		int h = Util.firstEmptyPosition(board, this.getCol());	
 		//Check whether column is valid
 		if (!Util.isColumnValid(board, this.getCol()) || 
-				(h < Util.ERRORTHRESHOLD)) {
+				(h <= Util.ERRORTHRESHOLD) || (h >= board.getHeight())) {
 			success = false;
 		} else {			
 			board.setPosition(this.getCol(), Util.firstEmptyPosition(board, this.getCol()), this.getPlayer());	

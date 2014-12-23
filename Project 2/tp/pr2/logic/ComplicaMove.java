@@ -21,7 +21,7 @@ public class ComplicaMove extends Move {
 			success = false;
 		} 
 		else {
-			if (h <= Util.ERRORTHRESHOLD) { // if the column is full I move all the Counters one cell down and do the first cell empty
+			if (h < Util.ERRORTHRESHOLD) { // if the column is full I move all the Counters one cell down and do the first cell empty
 				this.setOut(board.getPosition(getCol(), board.getHeight()));
 				board = this.moveDownCells(board, this.getCol());
 			} else {
@@ -43,7 +43,11 @@ public class ComplicaMove extends Move {
 			board.setPosition(getCol(), board.getHeight(), this.getOut());
 		}
 		else {
-			board.setPosition(this.getCol(), (Util.firstEmptyPosition(board, this.getCol()) + 1), Counter.EMPTY); // the same undo as C4
+			int h = Util.firstEmptyPosition(board, this.getCol());
+			if (h < Util.ERRORTHRESHOLD) {
+				h++;
+			}
+			board.setPosition(this.getCol(), (h + 1), Counter.EMPTY); // the same undo as C4
 		}
 	}
 	
