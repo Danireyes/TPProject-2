@@ -56,11 +56,11 @@ public class ComplicaRules implements GameRules {
 					}
 				}
 				
-				if ((whiteWins && !blackWins) || (!whiteWins && blackWins)) {
+				if (((whiteWins && !blackWins) || (!whiteWins && blackWins)) && end) {
 					winner = b.getPosition(x, y);
-				} else {
+				} else if (whiteWins && blackWins){
 					winner = Counter.EMPTY;
-				}
+				} 
 				//Increase x counter
 				if(!whiteWins || !blackWins) {
 					x++;
